@@ -1,12 +1,90 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser
+)
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
+# accounts.models.py
 
-# Create your models here.
+class UserManager(BaseUserManager):
+    def create_user(self, email, first_name, last_name, student_number, contact_no, course, year_lvl, password=None):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+        if not password:
+            raise ValueError('Users must have a password')
+        if not first_name:
+            raise ValueError('Users must have a first name')
+        if not last_name:
+            raise ValueError('Users must have a last name')
+        if not student_number:
+            raise ValueError('Users must have a student number')
+        if not contact_no:
+            raise ValueError('Users must have a contact_no')
+        if not course:
+            raise ValueError('Users must have a course')
+        if not year_lvl:
+            raise ValueError('Users must have a year_lvl')
+        user = self.model(
+            email=self.normalize_email(email),
+            first_name=first_name,
+            last_name=last_name,
+            student_number=student_number,
+            contact_no=contact_no,
+            course=course,
+            year_lvl=year_lvl,
+        )
 
-class Student(models.Model):
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_staffuser(self, email, first_name, last_name, student_number, contact_no, course, year_lvl, password):
+        """
+        Creates and saves a staff user with the given email and password.
+        """
+        user = self.create_user(
+            email,
+            first_name, 
+            last_name, 
+            student_number, 
+            contact_no, 
+            course, 
+            year_lvl,
+            password=password,
+        )
+        user.staff = True
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, first_name, last_name, student_number, contact_no, course, year_lvl, password):
+        """
+        Creates and saves a superuser with the given email and password.
+        """
+        user = self.create_user(
+            email,
+            first_name, 
+            last_name, 
+            student_number, 
+            contact_no, 
+            course, 
+            year_lvl,
+            password=password,
+        )
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
+        return user
+
+class User(AbstractBaseUser):
+    email = models.EmailField(
+        verbose_name='email address',
+        max_length=255,
+        unique=True,
+    )
     YEAR_IN_SCHOOL_CHOICES = (
         ('FR', 'Freshman'),
         ('SO', 'Sophomore'),
@@ -24,23 +102,57 @@ class Student(models.Model):
         ('FA', 'Fine Arts'),
         ('Mgt', 'Management'),
     )
-    first_name = models.CharField(max_length=100, null=True)
-    last_name = models.CharField(max_length=100, null=True)
-    s_number = models.CharField(max_length=20, null=True)
-    contact_no = models.CharField(max_length=11)
-    email_add = models.CharField(max_length=100)
-    s_course = models.CharField(max_length=100, choices=COURSE_CHOICES)
-    s_year_lvl = models.CharField(max_length=2, choices=YEAR_IN_SCHOOL_CHOICES)
+    first_name = models.CharField(max_length=100, blank = True, null=True)
+    last_name = models.CharField(max_length=100, blank = True, null=True)
+    student_number = models.CharField(max_length=20, blank = True, null=True)
+    contact_no = models.CharField(max_length=11, blank = True, null=True)
+    course = models.CharField(max_length=100, choices=COURSE_CHOICES)
+    year_lvl = models.CharField(max_length=2, choices=YEAR_IN_SCHOOL_CHOICES)
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False) # a admin user; non super-user
+    admin = models.BooleanField(default=False) # a superuser
+    # notice the absence of a "Password field", that's built in.
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'student_number', 'contact_no', 'course', 'year_lvl'] # Email & Password are required by default.
 
-    def __str__(self):
-        if self.first_name and not self.last_name:
-            return self.first_name
-        elif self.first_name and self.last_name:
-            return self.first_name + ' ' + self.last_name
-        else:
-            return 'Student'
+    def get_full_name(self):
+        # The user is identified by their email address
+        return self.email
 
+    def get_short_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        return self.staff
+
+    @property
+    def is_admin(self):
+        "Is the user a admin member?"
+        return self.admin
+
+    @property
+    def is_active(self):
+        "Is the user active?"
+        return self.active
+
+    objects = UserManager()
 
 class Class(models.Model):
     c_title = models.CharField(max_length=50)
@@ -56,8 +168,7 @@ class Profile(models.Model):
     student_number = models.CharField(max_length=30, null = True)
 
     def __str__(self):
-        return f'{self.user.username} Profile'  
-
+        return f'{self.user.email} Profile'  
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

@@ -1,32 +1,39 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm
-
+from .forms import UserRegisterForm, UserLoginForm
+from .models import User
+from django.contrib.auth import (
+    authenticate,
+    get_user_model,
+    login,
+    logout
+)
 # Create your views here.
 def home(request):
 	return render(request, 'home/home.html')
 
+def welcome(request):
+    return render(request, 'home/welcome.html')
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.student_number = form.cleaned_data.get('student_number')
-            user.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Your account has been created! You are now able to log in')
-            return redirect('login')
+            form.save()
+            email = form.cleaned_data.get('email')
+            messages.success(request, f'Account created for {email}!')
+            return redirect('home')
     else:
-        form = UserRegisterForm() 
+        form = UserRegisterForm()
     return render(request, 'register/register.html', {'form': form})
 
 def profile(request):
-	return render(request, 'profile/profile.html')
+    return render(request, 'profile/profile.html')
 
-@login_required
+def admin(request):
+    return render(request, 'admin/admin.html')
+
+
 def updateProfile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -48,3 +55,28 @@ def updateProfile(request):
         'p_form': p_form
     }
     return render(request, 'profile/updateProfile.html', context)
+
+def log_in(request):
+    next = request.GET.get('next')
+    form = UserLoginForm(request.POST or None)
+    if form.is_valid():
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        user = authenticate(email=email, password=password)
+        if user.is_admin:
+            return redirect('admin')
+        else:
+            login(request, user)
+            if next:
+                return redirect(next)
+            return redirect('home')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'lilo/login.html', context)
+
+# Create your views here.
+def log_out(request):
+	logout(request, User)
+	return render(request, 'lilo/logout.html')

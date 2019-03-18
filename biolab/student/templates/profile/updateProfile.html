@@ -10,14 +10,11 @@
 	<style>
 		body{
 			background-image: url("/static/home/media/science-background.png");
-
 			  min-height: 1000px;
-
 			  /* Center and scale the image nicely */
 			  background-position: center;
 			  background-repeat: no-repeat;
 			  background-size: cover;
-
 			  position: relative;
 		}
 	</style>
@@ -49,7 +46,7 @@
 	<main role="main" class="container">
 		<div class="row">
 	    	<div class="col-md-8">
-	      		
+
 	    	</div>
 	    </div>
 	</main>
@@ -58,12 +55,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     {% load crispy_forms_tags %}
 	<div class="content-section">
-      
+
       	<div style="width: 100%; text-align: center; position: relative;">
-  			
+  			<div style="display: inline-block;">
+        		<img class="rounded-circle account-img" src="{{ image.url }}" style="width:128px;height:128px;">
+        	</div>
         </div>
-    
-	     
+
+
       </div>
       <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -72,12 +71,12 @@
             <div class="col-6">
                 <legend class="border-bottom mb-4">Profile Info</legend>
             </div>
-            	
+
                  <div class="col-10">
                     {{ u_form|crispy }}   
                  </div>
                     {{ p_form|crispy }} 
-            
+
             </fieldset>
             <div class="form-group">
                <button class="btn btn-outline-info" type="submit">Update</button>
