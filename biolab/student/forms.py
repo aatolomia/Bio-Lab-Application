@@ -103,3 +103,41 @@ class UserAdminChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField( required = False)
+    first_name = forms.CharField(required = False)
+    last_name = forms.CharField(required = False )
+    contact_no = forms.CharField(required = False )
+    class Meta:
+        model = User
+        fields = ['first_name','last_name', 'email', 'contact_no', 'course']
+
+  
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm,self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['first_name'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['last_name'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['contact_no'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['course'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['course'].required=False
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('email', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('first_name', css_class='form-group col-md-4 mb-0'),
+                Column('last_name', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+      
+        )
+
+class ProfileUpdateForm(forms.ModelForm):
+    image= forms.ImageField(required=False)
+    class Meta:
+        model = Profile
+        fields = ['image']
