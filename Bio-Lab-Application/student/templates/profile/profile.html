@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>{{ student.first_name }} {{ student.last_name }}</title>
+	<title>{{ user.first_name }} {{ user.last_name }}</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -56,7 +56,7 @@
 		</nav>
 	</header>
 	<div class="jumbotron">
-		<h1 class="display-4">{{ student.first_name }} {{ student.last_name }} : Profile </h1>
+		<h1 class="display-4">{{ user.first_name }} {{ user.last_name }} : Profile </h1>
 	</div>
 	<!--
 	<div class="content-section">
@@ -84,26 +84,63 @@
 				<dt class="col-md-5">	
 					<h4 class="display-6 mt-2"><i class="far fa-envelope"></i> Email Address</h4>
 				</dt>
-				<dd class="col-md-5 mt-3">
-					<h6>{{ student.email_add }}</h6>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.email }}</h5>
 				</dd>
-
+				<div class="col-md-1 bg-dark"></div>		
+				
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="fas fa-phone"></i> Contact Number</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.contact_no }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
+			</dl>
+			<h3 class="display-6"><i class="fas fa-user-circle"></i> General Information</h3>
+			<dl class="row bg-white text-dark">
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="far fa-user"></i> Name</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.first_name }} {{ user.last_name }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
 				<dt class="col-md-5">	
 					<h4 class="display-6 mt-2"><i class="far fa-id-card"></i> Student Number</h4>
 				</dt>
-				<dd class="col-md-2 ml-3 mt-3 bg-light">
-					<h6>{{ student.student_number }}</h6>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.student_number }}</h5>
 				</dd>
+				<div class="col-md-1 bg-dark"></div>		
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="fas fa-book"></i> Course</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.course }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="fas fa-graduation-cap"></i> Year Level</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.year_lvl }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
 			</dl>
+		</div>
+		<div class="col-md-2 pt-3 text-white bg-dark">
+			<h4 class="display-6"><i class="fas fa-sliders-h"> Settings</i></h4>
+			<div class="container pt-2 pb-2 bg-light">
+				<div class="btn-group-vertical offset-md-2">
+					<a class="btn btn-outline-secondary btn-lg" href="{% url 'updateProfile' %}" role="button">Edit</a>
+					<a class="btn btn-outline-secondary btn-lg" href="#" role="button">Deactivate</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-2 mt-3">
-			<div class="container pt-2 pb-2 bg-light">
-				<a class="btn btn-outline-secondary btn-sm" href="{% url 'updateProfile' %}" role="button">Edit</a>
-				<a class="btn btn-outline-secondary btn-sm" href="#" role="button">Deactivate</a>
-			</div>
-		</div>
+		
 	</div>
 	
 
