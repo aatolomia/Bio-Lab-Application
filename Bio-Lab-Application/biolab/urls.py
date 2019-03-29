@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', user_views.admin, name='admin'),
     path('login/', user_views.log_in, name='log_in'),
     path('logout/', user_views.log_in, name='log_out'),
+    path('equipment/', include('equipment.urls')),
 ]
 
 if settings.DEBUG:
