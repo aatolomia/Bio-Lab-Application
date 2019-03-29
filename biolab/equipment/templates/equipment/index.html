@@ -1,0 +1,11 @@
+{% if all_equipmentType %}
+	<h1>Available Equipment</h1>
+	<ol>
+		{% for equipType in all_equipmentType  %}
+		<img src = "{{equipType.type_of_equipment_picture}}">
+		<a href="{% url 'equipment:bio-app-detail' equipType.id %}">{{equipType.type_of_equipment}}</a>
+		{% endfor %}
+	</ol>
+{% else %}
+	<h3>You don't have any available equipment.</h3>
+{% endif %}

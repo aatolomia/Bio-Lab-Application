@@ -1,0 +1,12 @@
+<h1>{{ equipType.type_of_equipment }}</h1>
+<h3>{{ equipType.description }}</h3>
+
+<ul>
+	{% for equipment in equipType.equipment_set.all %}
+	<p><img src = "{{equipment.equipment_picture}}"><br>
+	<h2><a href="/equipment/{{ equipType.id }}/{{ equipment.id }}">{{equipment.name_of_equipment}}</a> </h2></p>
+	<h3>Number of items: {{ equipment.number_of_items }}</h3>
+	<h3>{{ equipment.size }}</h3>
+	<h3>{{ equipment.functional_or_not}}</h3>
+	{% endfor %}
+</ul>
