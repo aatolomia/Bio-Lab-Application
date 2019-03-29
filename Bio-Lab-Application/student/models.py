@@ -86,28 +86,28 @@ class User(AbstractBaseUser):
         unique=True,
     )
     YEAR_IN_SCHOOL_CHOICES = (
-        ('FR', 'Freshman'),
-        ('SO', 'Sophomore'),
-        ('JR', 'Junior'),
-        ('SR', 'Senior'),
-        ('GR', 'Graduate'),
+        ('Freshman', 'Freshman'),
+        ('Sophomore', 'Sophomore'),
+        ('Junior', 'Junior'),
+        ('Senior', 'Senior'),
+        ('Graduate', 'Graduate'),
     )
     COURSE_CHOICES = (
-        ('Bio', 'Biology'),
-        ('CS', 'Computer Science'),
-        ('Math', 'Mathematics'),
-        ('PS', 'Political Science'),
-        ('Psych', 'Psychology'),
-        ('Comm', 'Communications'),
-        ('FA', 'Fine Arts'),
-        ('Mgt', 'Management'),
+        ('Biology', 'Biology'),
+        ('Computer Science', 'Computer Science'),
+        ('Mathematics', 'Mathematics'),
+        ('Political Science', 'Political Science'),
+        ('Psychology', 'Psychology'),
+        ('Communications', 'Communications'),
+        ('Fine Arts', 'Fine Arts'),
+        ('Management', 'Management'),
     )
     first_name = models.CharField(max_length=100, blank = True, null=True)
     last_name = models.CharField(max_length=100, blank = True, null=True)
     student_number = models.CharField(max_length=20, blank = True, null=True)
     contact_no = models.CharField(max_length=11, blank = True, null=True)
     course = models.CharField(max_length=100, choices=COURSE_CHOICES)
-    year_lvl = models.CharField(max_length=2, choices=YEAR_IN_SCHOOL_CHOICES)
+    year_lvl = models.CharField(max_length=20, choices=YEAR_IN_SCHOOL_CHOICES)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
