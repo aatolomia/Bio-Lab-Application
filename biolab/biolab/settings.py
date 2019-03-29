@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'equipment.apps.EquipmentConfig',
     'student.apps.StudentConfig',
     'crispy_forms',
     'django.contrib.admin',
