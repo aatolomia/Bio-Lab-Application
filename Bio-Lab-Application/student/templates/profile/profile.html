@@ -76,7 +76,9 @@
 -->	{% load crispy_forms_tags %}
 	<div class="row">
 		<div class="col-md-2 offset-md-1 bg-dark pb-2 pt-2 pl-5">
-			<i class="fas fa-user fa-5x circle-icon"></i>
+			<div style="display: inline-block;">
+        		<img class="rounded-circle account-img" src="{{ user.profile.image.url }}" style="width:160px;height:158px;">
+        	</div>
 		</div>
 		<div class="col-md-5 text-white bg-dark pb-2 pt-2">
 			<h3 class="display-6"><i class="fas fa-portrait"></i> Contact Information</h3>
