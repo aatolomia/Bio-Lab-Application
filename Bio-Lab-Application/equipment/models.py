@@ -1,4 +1,8 @@
 from django.db import models
+from student.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your models here.
 class EquipmentType(models.Model):
@@ -32,3 +36,25 @@ class Equipment(models.Model):
 
 	def __str__(self): #specify what to print out
 		return self.name_of_equipment
+
+class Cart(models.Model):
+	size_choices = (
+		('S', 'Small'),
+		('M', 'Medium'),
+		('L', 'Large'),
+		('XL', "Extra Large"),
+	)
+
+	functional_or_not_choices = (
+		('Functional', 'Functional'),
+		('Non-Functional', 'Non-Functional'),
+	)
+	user_b = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+	name_of_equip = models.CharField(max_length = 100)	
+	num_of_items = models.IntegerField(null=True)
+	siz = models.CharField(max_length = 2, choices = size_choices, blank = True)
+	function_or_not = models.CharField(max_length = 15, choices= functional_or_not_choices, blank = True)
+	equip_picture = models.CharField(max_length = 1000, null=True)
+
+	def __str__(self): #specify what to print out
+		return self.name_of_equip

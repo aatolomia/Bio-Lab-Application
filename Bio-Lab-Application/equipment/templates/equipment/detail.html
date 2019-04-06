@@ -71,13 +71,11 @@
       <div class="col-lg-9">
         <div class="card mt-4">
         {% for equipment in equipType.equipment_set.all %}
-          <img class="card-img-top img-fluid" src = "{{equipment.equipment_picture}}" alt="">
           <div class="card-body">
             <h3 class="card-title">{{ equipType.description }}</h3>
-    		<h2><a href="/equipment/{{ equipType.id }}/{{ equipment.id }}">{{equipment.name_of_equipment}}</a> </h2></p>		
-	        <h3>Number of items: {{ equipment.number_of_items }}</h3>
-	        <h3>{{ equipment.size }}</h3>
-	        <h3>{{ equipment.functional_or_not}}</h3>
+    		<h2><a href="/equipment/{{ equipType.id }}/{{ equipment.id }}"><img class="card-img-top img-fluid" src = "{{equipment.equipment_picture}}" alt=""></a> </h2></p>		
+	        <h3>{{ equipment.name_of_equipment }}</h3>
+	       
           </div>
         </div>
         <!-- /.card -->

@@ -3,12 +3,10 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Home</title>
+	<title>Cart</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  
 	<style>
 		body{
 			background-image: url("/static/home/media/science-background.png");
@@ -22,35 +20,6 @@
 
 			  position: relative;
 		}
-		
-		table{
-			background-color: white;
-			position: absolute;
-			left:125px;
-			top:600px;
-		}
-		
-		#cred{
-			background-color: lightblue;
-			position: absolute;
-			width:500px;
-			height:150px;
-			left:125px;
-			top:822px;
-		}
-		
-		thead tr th h6 {
-			font-size:5px;
-		}	
-		
-		#news{
-			background-color: Lightgray;
-			position:absolute;
-			width:500px;
-			height:150px;
-			left:700px;
-			top:822px;
-		}
 	</style>
 </head>
 <body>
@@ -60,13 +29,14 @@
 				<a class="navbar-brand" href="#">
 					<img src="/static/home/media/boiling_water-512.svg" alt="">Bio Lab Application
 				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				    <span class="navbar-toggler-icon"></span>
+				</button>
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-item nav-link active" href="ProfileWelcomePage.html#Welcome">Home</a>
+				        <a class="nav-item nav-link active" href="{% url 'home' %}">Home</a>
 				        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-						<a class="nav-item nav-link" href="{% url 'equipment:bio-app-equipment' %}">Equipment</a>
-						<a class="nav-item nav-link" href="{% url 'cart' %}">Cart</a>
-					</div>
+				    </div>
 	  			</div>
 	  			<form class="form-inline">
 				    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -83,44 +53,30 @@
 	    	</div>
 	    </div>
 	</main>
-	<div class="table">
-		<table class="table-bordered table-hover">
-			<thead>
-				<td><b>Weekly Calendar</b></td>
-				<tr>
-					<th class="text-center">Sunday<h6>31<h6></td>
-					<th class="text-center">Monday<h6>01<h6></td>
-					<th class="text-center">Tuesday<h6>02<h6></td>
-					<th class="text-center">Wednesday<h6>03<h6></td>
-					<th class="text-center">Thursday<h6>04<h6></td>
-					<th class="text-center">Friday<h6>05<h6></td>
-					<th class="text-center">Saturday<h6>06<h6></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">Go to Church</th>
-					<th scope="row">Go to Church</th>
-					<th scope="row">Go to Church</th>
-					<th scope="row">Go to Church</th>
-					<th scope="row">Go to Church</th>
-					<th scope="row">Go to Church</th>
-					<th scope="row">Go to Church</th>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div class="jumbotron" id="cred">
-		<p>Here is a list of UP Cebu Professors background and contact information <a href="credentials.html">See more</a><p>
-	</div>
-	
-	<div class="jumbotron" id="news">
-		<h6>News:<h6>
-	</div>
-	
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+
+<div class="container">
+
+  <!-- Page Heading -->
+  <h1 class="my-4">Equipments
+  </h1>
+  
+      <!-- /.col-lg-3 -->
+  <div class="col-lg-9">
+    <div class="card mt-4">
+    {% for cart in user_b.cart_set.all %}
+      <div class="card-body">
+        <h2>{{ cart.name_of_equip }}</h2>
+        <p>Number of Items borrowed: {{ cart.num_of_items }}</p>
+      </div>
+    </div>
+    <!-- /.card -->
+    {% endfor %}
+    <input type="submit" value="Borrow">
+  </div>
+</div>
+<!-- /.container -->
+
+
