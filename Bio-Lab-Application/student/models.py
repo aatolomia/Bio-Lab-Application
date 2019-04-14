@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 # accounts.models.py
 
+
+
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, student_number, contact_no, course, year_lvl, password=None):
         """
@@ -175,7 +177,8 @@ class Profile(models.Model):
     student_number = models.CharField(max_length=30, null = True)
 
     def __str__(self):
-        return f'{self.user.email} Profile'  
+        return f'{self.user.email} Profile' 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -187,3 +190,16 @@ def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
+
+class Notification(models.Model):
+    Title = models.CharField(max_length=100)
+    Body = models.TextField()
+
+    def get_Title(self):
+        return self.Title
+
+    def get_Body(self):
+        return self.Body
+
+    def __str__(self):
+        return self.Title
