@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm
 from .models import User
+from student.models import Notification
 from django.contrib.auth import (
     authenticate,
     get_user_model,
@@ -10,6 +11,7 @@ from django.contrib.auth import (
     logout
 )
 # Create your views here.
+
 def home(request):
 	return render(request, 'home/home.html')
 
@@ -34,6 +36,9 @@ def profile(request):
 
 def admin(request):
     return render(request, 'admin/admin.html')
+
+def credentials(request):
+    return render(request, 'home/credentials.html')
 
 @login_required
 def updateProfile(request):
@@ -82,3 +87,6 @@ def log_in(request):
 def log_out(request):
 	logout(request, User)
 	return render(request, 'lilo/logout.html')
+
+def notification(request):
+    return render(request, 'home/home.html')
