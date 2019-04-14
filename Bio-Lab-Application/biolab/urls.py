@@ -31,6 +31,8 @@ urlpatterns = [
     path('admin/', user_views.admin, name='admin'),
     path('login/', user_views.log_in, name='log_in'),
     path('logout/', user_views.log_in, name='log_out'),
+    path('notifications/', user_views.notification, name='Notif'),
+    path('credentials/', user_views.credentials, name='credentials'),
     path('cart/', eq.cart, name='cart'),
     path('equipment/', include('equipment.urls')),
 ]
