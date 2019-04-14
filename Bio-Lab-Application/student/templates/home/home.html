@@ -45,12 +45,17 @@
 		
 		#news{
 			background-color: Lightgray;
-			position:absolute;
+			position: absolute;
 			width:500px;
-			height:150px;
-			left:700px;
-			top:822px;
+			height: 400px;
+			left:1300px;
+			top:600px;
 		}
+		#notif{
+			background-color: lightyellow;
+			position: relative;
+		}
+
 	</style>
 </head>
 <body>
@@ -62,10 +67,11 @@
 				</a>
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-item nav-link active" href="ProfileWelcomePage.html#Welcome">Home</a>
+						<a class="nav-item nav-link active" href="{% url 'home' %}">Home</a>
 				        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
 						<a class="nav-item nav-link" href="{% url 'equipment:bio-app-equipment' %}">Equipment</a>
 						<a class="nav-item nav-link" href="{% url 'cart' %}">Cart</a>
+						
 					</div>
 	  			</div>
 	  			<form class="form-inline">
@@ -112,11 +118,32 @@
 	</div>
 	
 	<div class="jumbotron" id="cred">
-		<p>Here is a list of UP Cebu Professors background and contact information <a href="credentials.html">See more</a><p>
+		<p>Here is a list of UP Cebu Professors background and contact information <a href="{% url 'credentials' %}">See more</a><p>
 	</div>
 	
+	{% load crispy_forms_tags %}
+	<div class="jumbotron" id="notif">
+		<h1>Notifications:</h1>
+			<dl class="row text-dark">
+				<dt class="col-md-5">
+					<h5>{{ Notification.Title }}</h5>					
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ Notification.Body }}</h5>
+				</dd>
+				
+				<div class="col-md-1 bg-dark"></div>
+			</dl>
+
+	</div>
+
 	<div class="jumbotron" id="news">
 		<h6>News:<h6>
+		<a class="nav-item nav-link" href="https://www.newscientist.com/">NewScientist</a>
+		<a class="nav-item nav-link" href="https://www.scientificamerican.com/">Scientific American</a>
+		<a class="nav-item nav-link" href="https://www.sciencenews.org/">ScienceNews</a>
+		<a class="nav-item nav-link" href="http://discovermagazine.com/">Discover</a>
+		<a class="nav-item nav-link" href="https://www.wired.com/category/science/">Wired</a>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
