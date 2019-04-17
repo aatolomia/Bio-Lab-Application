@@ -142,3 +142,86 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['image']
+class adminloginform(forms.Form):
+    email = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self, *args, **kwargs):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+            if not user:
+                raise forms.ValidationError('This user does not exist')
+            if not user.check_password(password):
+                raise forms.ValidationError('Incorrect password')
+            if not user.is_active:
+                raise forms.ValidationError('This user is not active')
+        return super(adminloginform, self).clean(*args, **kwargs)
+
+
+class adminprofileupdateform(forms.ModelForm):
+    image= forms.ImageField(required=False)
+    class Meta:
+        model = User
+        fields = ['image']
+    
+
+
+class adminupdateform(forms.ModelForm):
+    #email = forms.EmailField( required = False)
+    first_name = forms.CharField(required = False)
+    last_name = forms.CharField(required = False )
+    contact_no = forms.CharField(required = False )
+    class Meta:
+        model = User
+        fields = ['first_name','last_name', 'contact_no']
+
+    def __init__(self, *args, **kwargs):
+        super(adminupdateform,self).__init__(*args, **kwargs)
+        #self.fields['email'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['first_name'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['last_name'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['contact_no'].widget.attrs['style'] = 'width:350px; height:40px;'
+        
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('email', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('first_name', css_class='form-group col-md-4 mb-0'),
+                Column('last_name', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+      
+        )
+
+
+
+
+class AdminDetailsForm(forms.Form):
+    
+    class Meta:
+        model = User
+        fields = ['first_name','last_name','contact_no']
+
+    def __init__(self, *args, **kwargs):
+        super(AdminDetailsForm,self).__init__(*args, **kwargs)
+        #self.fields['email'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['first_name'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['last_name'].widget.attrs['style'] = 'width:350px; height:40px;'
+        self.fields['contact_no'].widget.attrs['style'] = 'width:350px; height:40px;'
+        
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('first_name', css_class='form-group col-md-4 mb-0'),
+                Column('last_name', css_class='form-group col-md-4 mb-0'),
+                Column('contact_no', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+      
+        )
