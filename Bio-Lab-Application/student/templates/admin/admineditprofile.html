@@ -1,0 +1,35 @@
+{% extends 'admin/adminHome/adminbase.html' %}
+{% load staticfiles %}
+{% block content %}
+	<br /><br /><center>
+	{% load crispy_forms_tags %}
+	
+	<div class="container">
+	<div class="row">
+		
+        </div>
+        <center>
+	<form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <fieldset class="form-control text-align:center bg-dark text-white" >
+            	<h2>Profile Info</h2>
+                 <div class="col-10">
+                    {{ u_form|crispy }}   
+                 </div>
+                    {{ p_form|crispy }} 
+
+            
+            <div class="form-group">
+               <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+            </fieldset>
+      </form>
+      </center>
+	</div>
+			
+
+
+
+
+ {%endblock%}
