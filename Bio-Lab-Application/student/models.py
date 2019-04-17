@@ -203,3 +203,33 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.Title
+
+class updateAdmin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default = 'default.jpg', upload_to = 'profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username} AdminProfile' 
+
+
+class AdminProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
+    image = models.ImageField(default = 'default.jpg', upload_to = 'profile_pics')
+    student_number = models.CharField(max_length=30, null = True)
+
+    def __str__(self):
+        return f'{self.user.email} Profile'  
+@receiver(post_save, sender=User)
+def create_user_adminprofile(sender, instance, created, **kwargs):
+    if created:
+        AdminProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_adminprofile(sender, instance, **kwargs):
+    try:
+        instance.profile.save()
+    except ObjectDoesNotExist:
+        AdminProfile.objects.create(user=instance)
+
+
+
