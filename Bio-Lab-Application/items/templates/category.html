@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  
+    <style>
+        body{
+            background-image: url("/static/home/media/science-background.png");
+
+              min-height: 1000px;
+
+              /* Center and scale the image nicely */
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+
+              position: relative;
+        }
+        
+        table{
+            background-color: white;
+            position: absolute;
+            left:125px;
+            top:200px;
+            width:600px;
+        }
+        
+        #cred{
+            background-color: lightblue;
+            position: absolute;
+            width:500px;
+            height:150px;
+            left:125px;
+            top:822px;
+        }
+        
+        thead tr th h6 {
+            font-size:5px;
+        }   
+        
+        #news{
+            background-color: Lightgray;
+            position:absolute;
+            width:500px;
+            height:150px;
+            left:700px;
+            top:822px;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="/static/home/media/boiling_water-512.svg" alt="">Bio Lab Application
+                </a>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="#">Home</a>
+                        <a class="nav-item nav-link" href="{% url 'adminprofile' %}">Profile</a>
+                        <a class="nav-item nav-link" href="{% url 'items' %}">Items</a>
+                        <a class="nav-item nav-link" href="{% url 'categories' %}">Category</a>
+                        <a class="nav-item nav-link" href="#">Students</a>
+                
+                
+                    </div>
+                </div>
+                <form class="form-inline">
+                    
+                <a class="nav-item nav-link" href="{% url 'adminlogout' %}">Logout</a>
+                </form>
+            
+            </div>
+        </nav>
+    </header>
+{% load staticfiles %}
+    <div class="container-fluid">
+    <div id="wrapper">
+        <main id="page-content-wrapper" role="main">
+    <div>
+        <div class="alert alert-info">All Category</div>
+        <a href="#" id="add_item" class="btn btn-success">Add new Category</a>
+        <button id="show_item" type="button" style="display:none;" class="btn btn-success"><span
+                class="glyphicon glyphicon-circle-arrow-left"></span> Back
+        </button>
+        <div id="item_table">
+            <table id="table" class="table table-bordered" style="width: 200px;">
+                <thead class="alert-success">
+                <tr>
+                    <th class="text-center">Item Name</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td class="text-center">{{ category.name }}</td>
+                        <td class="text-center"><a class="btn btn-danger" href="{% url 'delete_category' category.id %}"><span
+                                class="glyphicon glyphicon-remove"></span> Delete</a>
+                            <a href="#" data-id="{{ category.id }}" class="btn btn-warning editButton eitem_id">
+                                <span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="edit_form"></div>
+        <div id="item_form" style="display:none;">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <form id="form" method="POST" action="{% url 'categories' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="name" id="name" required="required" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <button name="save_category" id="save_category" type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+ </main>
+    </div>
+</div>
+<script src="{% static 'js/jquery-2.2.3.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/datatables.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+        $(document).ready(function () {
+            $('#add_item').click(function () {
+                $(this).hide();
+                $('#show_item').show();
+                $('#item_table').slideUp();
+                $('#item_form').slideDown();
+                $('#show_item').click(function () {
+                    $(this).hide();
+                    $('#add_item').show();
+                    $('#item_table').slideDown();
+                    $('#item_form').slideUp();
+                });
+            });
+        });
+
+        $('.editButton').on('click', function () {
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '' + id,
+                method: 'GET'
+            }).success(function(response) {
+{#                alert(response.name);#}
+                $('#form')
+                    .find('[name="name"]').val(response.name).end();
+                document.getElementById('save_category').innerText = 'Update';
+                $(this).hide();
+                $('#show_item').show();
+                $('#item_table').slideUp();
+                $('#item_form').slideDown();
+				$('#add_item').hide();
+				$('#show_item').click(function(){
+					$(this).hide();
+					document.getElementById('form').reset();
+					$('#add_item').show();
+					$('#item_table').slideDown();
+					$('#item_form').slideUp();
+				});
+            });
+        });
+    </script>
