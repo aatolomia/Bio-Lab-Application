@@ -73,7 +73,8 @@ def log_in(request):
         password = form.cleaned_data.get('password')
         user = authenticate(email=email, password=password)
         if user.is_admin:
-            return redirect('admin')
+		messages.error(request, 'This is not the site for admin login.')
+            
         else:
             login(request, user)
             if next:
