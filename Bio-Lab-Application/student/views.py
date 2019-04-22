@@ -73,7 +73,7 @@ def log_in(request):
         password = form.cleaned_data.get('password')
         user = authenticate(email=email, password=password)
         if user.is_admin:
-		messages.error(request, 'This is not the site for admin login.')
+            messages.error(request, 'This is not the site for admin login.')
             
         else:
             login(request, user)
@@ -82,7 +82,7 @@ def log_in(request):
             return redirect('home')
 
     context = {
-        'form': form,
+        'form': form
     }
     return render(request, 'lilo/login.html', context)
 
@@ -150,7 +150,7 @@ def adminlogin(request):
             
 
     context = {
-        'form': form,
+        'form': form
     }
     return render(request, 'admin/adminlogin.html', context)
 
