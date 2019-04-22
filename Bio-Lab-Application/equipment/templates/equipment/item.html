@@ -1,11 +1,7 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends 'home/base.html' %}
+{% block title %}{{ equipment.name_of_equipment }}{% endblock %}
+{% block content %}
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-
 /* The Modal (background) */
 .modal {
   background-color: rgba(0, 0, 0, 0.8);
@@ -57,18 +53,21 @@ input {
   cursor: pointer;
 }
 </style>
-</head>
 <body>
-
-<img src = "{{equipment.equipment_picture}}">
-
-<ol>
-	<h1>{{ equipment.equipment_type}} : {{ equipment.name_of_equipment }}</h1>
-	<h2>Number of items: {{ equipment.number_of_items }}</h2>
-	<h2>Size: {{ equipment.size }}</h2>
-	<h2>{{ equipment.functional_or_not}}</h2>
-	<button id="myBtn">Add to Cart</button>
-</ol>
+<div class="row mt-5 ml-5">
+  <div class="col-md-7 bg-dark text-light">
+    <ol>
+	   <h1>{{ equipment.equipment_type}} : {{ equipment.name_of_equipment }}</h1>
+	   <h2>Number of items: {{ equipment.number_of_items }}</h2>
+	   <h2>Size: {{ equipment.size }}</h2>
+	   <h2>{{ equipment.functional_or_not}}</h2>
+	   <button id="myBtn">Add to Cart</button>
+    </ol>
+  </div>
+  <div class="col-md-4">
+    <img src = "{{equipment.equipment_picture}}">
+  </div>
+</div>
 
 <!-- Trigger/Open The Modal -->
 
@@ -136,6 +135,5 @@ window.onclick = function(event) {
   }
 }
 </script>
+{% endblock %}
 
-</body>
-</html>
