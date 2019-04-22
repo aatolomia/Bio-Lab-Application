@@ -74,7 +74,7 @@
                 </div>
                 <form class="form-inline">
                     
-                <a class="nav-item nav-link" href="{% url 'adminlogout' %}">Logout</a>
+                <a class="nav-item nav-link" href="{% url 'log_out' %}">Logout</a>
                 </form>
             
             </div>
@@ -86,16 +86,7 @@
         <div class="alert alert-info">Transaction / Borrowing</div>
         <form method="POST" action="">
             {% csrf_token %}
-            {% load staticfiles %}
-            <!--<div class="form-group pull-left">
-                <label>Student Name:</label>
-                <br/>
-                <select class="form-control" name="student_id" id="student">
-                    {% for student in students %}
-                        <option value='{{ student.id }}'>{{ student.firstname }} {{ student.lastname }}</option>
-                    {% endfor %}
-                </select>
-            </div>-->
+            {% load staticfiles %
             <div class="form-group pull-right">
                 <button name="save_borrow" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span>
                     Borrow
