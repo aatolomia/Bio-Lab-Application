@@ -3,7 +3,7 @@ from . import views
 from django.conf.urls import url
 
 urlpatterns = [
-	path('', views.items, name="items"),
+    path('', views.items, name="items"),
     url(r'^categories$', views.categories, name="categories"),
     url(r'^delete_item/(\d+)/$', views.delete_item, name="delete_item"),
     url(r'^edit_item/(\d+)/$', views.edit_item, name="edit_item"),
