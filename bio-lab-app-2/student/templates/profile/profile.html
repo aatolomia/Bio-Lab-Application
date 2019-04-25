@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>{{ user.first_name }} {{ user.last_name }}</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<style>
+		body{
+			background-image: url("/static/home/media/science-background.png");
+
+			  min-height: 1000px;
+
+			  /* Center and scale the image nicely */
+			  background-position: center;
+			  background-repeat: no-repeat;
+			  background-size: cover;
+
+			  position: relative;
+		}
+		.jumbotron{
+			background-image: url("/static/profile/media/background.png");
+			color:white;
+		}
+		.circle-icon {
+		    background: white;
+		    padding:30px;
+		    border-radius: 50%;
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="#">
+					<img src="/static/home/media/boiling_water-512.svg" alt="">Bio Lab Application
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				    <span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav">
+				        <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+				        <a class="nav-item nav-link active" href="{% url 'profile' %}">Profile</a>
+				        <a class="nav-item nav-link" href="{% url 'equipment:bio-app-equipment' %}">Equipment</a>
+						<a class="nav-item nav-link" href="{% url 'cart' %}">Cart</a>
+				    </div>
+	  			</div>
+	  			<form class="form-inline">
+				    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				    <a class="nav-item nav-link" href="{% url 'log_out' %}">Logout</a>
+				</form>
+			</div>
+		</nav>
+	</header>
+	<div class="jumbotron">
+		<h1 class="display-4">{{ user.first_name }} {{ user.last_name }} : Profile </h1>
+	</div>
+	{% load staticfiles %}
+	{% load crispy_forms_tags %}
+	<div class="row">
+		<div class="col-md-2 offset-md-1 bg-dark pb-2 pt-2 pl-5">
+			<div style="display: inline-block;">
+        		{% if user.profile.image %}
+        		<img  src="{{ user.profile.image.url }}" height="180" width="180" class="img-responsive" >
+        		{% else %}
+        			<img src="{% static 'default.png' %}" class="img-responsive" height="180" width="180">
+                {% endif %}
+        	</div>
+		</div>
+
+		<div class="col-md-5 text-white bg-dark pb-2 pt-2">
+			<h3 class="display-6"><i class="fas fa-portrait"></i> Contact Information</h3>
+			<dl class="row bg-white text-dark">
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="far fa-envelope"></i> Email Address</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.email }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>		
+				
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="fas fa-phone"></i> Contact Number</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.contact_no }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
+			</dl>
+			<h3 class="display-6"><i class="fas fa-user-circle"></i> General Information</h3>
+			<dl class="row bg-white text-dark">
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="far fa-user"></i> Name</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.first_name }} {{ user.last_name }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="far fa-id-card"></i> Student Number</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.student_number }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>		
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="fas fa-book"></i> Course</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.course }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
+				<dt class="col-md-5">	
+					<h4 class="display-6 mt-2"><i class="fas fa-graduation-cap"></i> Year Level</h4>
+				</dt>
+				<dd class="col-md-6 mt-3">
+					<h5>{{ user.year_lvl }}</h5>
+				</dd>
+				<div class="col-md-1 bg-dark"></div>
+			</dl>
+		</div>
+		<div class="col-md-2 pt-3 text-white bg-dark">
+			<h4 class="display-6"><i class="fas fa-sliders-h"> Settings</i></h4>
+			<div class="container pt-2 pb-2 bg-light">
+				<div class="btn-group-vertical offset-md-2">
+					<a class="btn btn-outline-secondary btn-lg" href="{% url 'updateProfile' %}" role="button">Edit</a>
+					<a class="btn btn-outline-secondary btn-lg" href="#" role="button">Deactivate</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
