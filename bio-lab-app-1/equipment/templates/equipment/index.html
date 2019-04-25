@@ -1,0 +1,38 @@
+{% extends 'home/base.html' %}
+
+{% block content%}
+{% if all_equipmentType %}
+<div class="container">
+
+  <!-- Page Heading -->
+  <h1 class="my-4">Equipments
+  </h1>
+
+  <div class="row">
+   {% for equipType in all_equipmentType  %}
+   	<div class=" col-lg-4 col-md-3 col-sm-3 col-xs-3">
+      <div class="thumbnail">
+       <a href="#"><img class="card-img-top" src="{{equipType.type_of_equipment_picture}}" alt="..."></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="{% url 'equipment:bio-app-detail' equipType.id %}" class="btn btn-block btn-primary text-uppercase">{{equipType.name}}</a>
+          </h4>    
+        </div>
+      </div>
+    </div>
+
+   {% endfor %}
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+ 
+{% else %}
+	<h3>You don't have any available equipment.</h3>
+{% endif %}
+
+{% endblock %}
+
+
