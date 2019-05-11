@@ -16,6 +16,15 @@ def categories(request):
     categories = Category.objects.all()
     return render(request, "items/category.html", {"categories": categories})
 
+def borrowCategory(request):
+    all_category = Category.objects.all()
+    context = {'all_category': all_category}
+    return render(request, 'items/borrowcategory.html', context)
+
+def borrowCategory2(request, Category_id):
+    cat = get_object_or_404(Category, pk=Category_id)
+    return render(request, 'items/borrowcategory2.html', {'cat': cat})
+
 def edit_category(request, id):
     category = Category.objects.filter(id=id).get()
     return JsonResponse({'name': category.name})
@@ -73,16 +82,12 @@ def delete_item(request, id):
     return redirect("/items")
 
 
-
-
 def borrow(request):
+    category = Category.objects.all()
     items = Item.objects.all()
     if request.method == "POST":
-        
         status = "Borrowed"
         items_id = request.POST.get('selector')
-        
-        
         num = request.POST.get('num')
         if num and items_id:
             num = int(request.POST.get('num'))
@@ -92,24 +97,19 @@ def borrow(request):
             pending.user_borrow = request.user
             pending.name_of_item = pend.name
             pending.num_of_items = request.POST.get('num')
-            #pending.num_borrowed = pend.available-1
             pending.picture = pend.picture
             it.available = pend.available-num
             if it.available < 0:
                 messages.error(request,'Invalid')
                 return redirect("/borrow")
-            #instance = cart.save(commit=False)
-            #instance.user_b = request.user
             else:
                 it.save()
                 pending.save()
                 return redirect("/borrow")
         else:
             return redirect("/borrow")
-       
-  #  students = Student.objects.all()
     
-    return render(request, "items/borrow.html", {'items':items})
+    return render(request, "items/borrowcategory.html", {'items':items})
 
 
 def approvereturn(request):
