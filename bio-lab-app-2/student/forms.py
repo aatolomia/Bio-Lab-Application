@@ -61,6 +61,11 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'student_number', 'contact_no', 'course', 'year_lvl', 'password1', 'password2']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.initial['student_number']= '20XX'
+        self.initial['contact_no'] = '09'
 
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
