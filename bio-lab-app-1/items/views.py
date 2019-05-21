@@ -159,3 +159,24 @@ def borrow(request):
 def approvereturn(request):
     borrows = Borrow.objects.all()
     return render(request, "items/return.html", {"borrows": borrows})
+
+def returned(request):
+    borrows = Borrow.objects.all()
+    if request.method == "POST":
+        b_id = int(request.POST["borrow_id"])
+        print(b_id)
+        borrow = Borrow.objects.get(id=b_id)
+        borrow.date = datetime.now()
+        ret = get_object_or_404(Borrow, pk=b_id)
+        items = Item.objects.get(name=ret.name_item)
+        items.available = items.available + ret.num_of_items
+        items.save()
+        print(items.available)
+        print(ret.num_of_items)
+        print(ret.name_item)
+        
+        borrow.save()
+        ret.delete()
+        return redirect('/returned')
+        
+    return render(request, "items/returned.html", {"borrows": borrows})
