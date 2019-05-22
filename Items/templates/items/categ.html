@@ -1,0 +1,51 @@
+{% extends 'items/itemsbase.html' %}
+{% block title %}Items{% endblock %}
+{% block content %}
+<br />
+	<center><h4 class="text-white" style="font-family: 'Poppins', sans-serif;font-size:80px;">Categories</h4></center>
+	{% load staticfiles %}
+	<div class="container">
+		<div class='row mt-3'>
+		{% for categ in category %}
+			<!--
+			<div class="col-md-3">	
+				<div class="card" style="margin-left: 65px; margin-bottom:20px; width: 12rem;">
+				  <img src="{{ categ.picture.url }}" class="card-img-top mx-auto mt-3" alt="..." style="height: 150px;width:150px;">
+				  <div class="card-body">
+				    <center><h5 class="card-title" style="font-family: 'Poppins', sans-serif;font-weight: bolder;">{{ categ.name }}</h5>
+				    <a href="{% url 'borrow' categ.id %}" class="btn btn-secondary">Click to borrow</a></center>
+				  </div>
+				</div>
+				-->
+			<div class="card">
+			<div class="view overlay zoom">
+			    <img src="{{ categ.picture.url }}" class="img-fluid " alt="..." style="height: 150px;width:150px;">
+			    <div class="mask flex-center">
+			        <p class="white-text">{{ categ.name }}</p>
+			    </div>
+			    <a href="{% url 'borrow' categ.id %}" class="btn btn-secondary">Click to borrow</a></center>
+			</div>
+		</div>
+	
+		{% endfor %}
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+		$(document).ready(function(){
+			$('.col-md-3').hover(
+				function(){
+					$(this).animate({
+						marginTop: "-=1%"
+					},200);
+				},
+				function(){
+					$(this).animate({
+						marginTop: "0%"
+					},200);
+				}
+			);
+		});
+	</script>
+{% endblock %}
