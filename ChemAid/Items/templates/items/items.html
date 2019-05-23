@@ -116,7 +116,7 @@
             var id = $(this).attr('data-id');
 
             $.ajax({
-                url: 'http://localhost:8000/edit_item/' + id,
+                url: 'http://127.0.0.1:8000/ChemAid/edit_item/'  + id,
                 method: 'GET'
             }).success(function (response) {
                 {#                alert(response.name);#}
