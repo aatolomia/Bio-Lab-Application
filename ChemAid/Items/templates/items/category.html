@@ -88,7 +88,7 @@
         $('.editButton').on('click', function () {
             var id = $(this).attr('data-id');
             $.ajax({
-                url: '' + id,
+                url: 'http://127.0.0.1:8000/ChemAid/edit_category/' + id,
                 method: 'GET'
             }).success(function(response) {
 {#                alert(response.name);#}
