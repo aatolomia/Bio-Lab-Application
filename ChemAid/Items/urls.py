@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^ChemAid/delete_category/(\d+)/$', views.delete_category, name="delete_category"),
     #url(r'^borrowing/(\d+)/$', views.borrowing, name="borrowing"),
     url(r'^ChemAid/approvereturn$', views.approvereturn, name="approvereturn"),
+    url(r'^ChemAid/returned$', views.returned, name="returned"),
     url(r'^ChemAid/request$', views.request, name="request"),
     url(r'^ChemAid/borrow$',views.options, name="options"),
     url(r'^ChemAid/borrow/(\d+)/$', views.borrow, name="borrow"),
