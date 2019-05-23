@@ -19,10 +19,12 @@ def categories(request):#add category (admin)
 
 def edit_category(request, id): #edit category (admin)
     category = Category.objects.filter(id=id).get()
+    category.delete()
     return JsonResponse({'name': category.name})
 
 def edit_item(request, id): #edit item (admin)
     item = Item.objects.filter(id=id).get()
+    item.delete()
     return JsonResponse(
         {'name': item.name, 'available': item.available})
 
